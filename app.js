@@ -12,32 +12,50 @@ const render = require("./lib/htmlRenderer");
 
 const team = [];
 
+
+const initPrompt = (memberType) => {
+    return [
+        {
+            type: "input",
+            name: "name",
+            message: `What is the ${memberType}'s name?`
+            },{
+                type: "input",
+                name: "id",
+                message: `What is the ${memberType}'s id?`
+            },{
+                type: "input",
+                name: "email",
+                message: `What is the ${memberType}'s email?`
+                validate: ans => {
+                    const emailCheck = ans.match(/\S+@\S+.\S{3}/)
+                    if (emailCheck) {
+                        return true;
+                    }
+                    return "Please enter a correct email.";
+                }
+            }
+        ]
+}
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 const createManager = () => {
-}
     const answers = await inquirer.prompt ([
-    {
-        type: "input",
-        name: "name",
-        message: "What is the managers name?"
-        },{
-            type: "input",
-            name: "id",
-            message: "What is the managers id?"
-        },{
-            type: "input",
-            name: "email",
-            message: "What is the managers email?"
-        },{
+        initPrompt("manager"),
+        {
             type: "input",
             name: "officeNumber",
-            message: "What is the managers office number?"
+            message: "What is the managers office number?",
             validate: ans => {
-
+                const numCheck = ans.match(/(1\-)?[\(]?\d{3}[\)\-]{,2}\d{3}[\-]?\d{4}/)
+                if (numCheck) {
+                    return true;
+                }
+                return "Please enter the full and correct phone number with no spaces.";
             }
-        },
+        }
     ])
     
     const { name, id, email, officeNumber } = answers;
@@ -71,7 +89,7 @@ const createTeam = () => {
             case 'Intern':
                 createIntern();
                 break;
-            case default:
+            default:
                 buildTeam();
                 break;
         }
@@ -79,24 +97,35 @@ const createTeam = () => {
 }
 
 const createEngineer = () => {
-    inquirer.prompt ([
+    const answers = await inquirer.prompt ([
+        initPrompt("engineer"),
+        {
+            type: "input",
+            name: "github",
+            message: "What is the engineer's github username?"
+        }
+    ])
 
-    ]).then(function(answers) {
-        //store engineer data
-        createTeam();
-    })
+    const { name, id, email, github } = answers;
+    team.push(new Manager(name, id, email, github));
+
+    createTeam();
 }
 
 const createIntern = () => {
-    inquirer.prompt ([
+    const answers = await inquirer.prompt ([
+        initPrompt("intern"),
+        {
+            type: "input",
+            name: "school",
+            message: "What school is the intern attending?"
+        }
+    ])
 
-    ]).then(function(answers) {
-        //store intern data
+    const { name, id, email, school } = answers;
+    team.push(new Manager(name, id, email, school));
 
-        //loop back to add another
-        createTeam();
-    })
-}
+    createTeam();}
 
 const buildTeam = () => {
 
