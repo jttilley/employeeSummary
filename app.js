@@ -10,70 +10,60 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// initialize empty team
 const team = [];
 
-
+// initial questions that all employees must answer 
+// memberType is the type of emplyoee being created (manager, engineer, or intern)
 const initPrompt = (memberType) => {
     return [
         {
             type: "input",
             name: "name",
             message: `What is the ${memberType}'s name?`
-            },{
-                type: "input",
-                name: "id",
-                message: `What is the ${memberType}'s id?`
-            },{
-                type: "input",
-                name: "email",
-                message: `What is the ${memberType}'s email?`
-                validate: ans => {
-                    const emailCheck = ans.match(/\S+@\S+.\S{3}/)
-                    if (emailCheck) {
-                        return true;
-                    }
-                    return "Please enter a correct email.";
+        },{
+            type: "input",
+            name: "id",
+            message: `What is the ${memberType}'s id?`
+        },{
+            type: "input",
+            name: "email",
+            message: `What is the ${memberType}'s email?`,
+            validate: ans => {
+                const emailCheck = ans.match(/\S+@\S+.\S{3}/) //make sure a proper email is entered
+                if (emailCheck) {
+                    return true;
                 }
+                return "Please enter a correct email.";
             }
-        ]
+        }]
 }
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-const createManager = () => {
+// get info for the manager of the team and add the manager to the team
+const createManager = async () => {
+    //using await syntax
     const answers = await inquirer.prompt ([
-        initPrompt("manager"),
+        ...initPrompt("manager"), //insert initial questions for manager
         {
             type: "input",
             name: "officeNumber",
-            message: "What is the managers office number?",
-            validate: ans => {
-                const numCheck = ans.match(/(1\-)?[\(]?\d{3}[\)\-]{,2}\d{3}[\-]?\d{4}/)
-                if (numCheck) {
-                    return true;
-                }
-                return "Please enter the full and correct phone number with no spaces.";
-            }
+            message: "What is the manager's office number?",
         }
     ])
     
     const { name, id, email, officeNumber } = answers;
     team.push(new Manager(name, id, email, officeNumber));
     
+    // ask about adding more employees to the team
     createTeam();
-    
 }
 
-const createEmployee() => {
-    inquirer.prompt ([
-
-    ]).then(function(answers) {
-        return answers;
-    })
-}
-
+// add more employees to the team or quit
 const createTeam = () => {
+    // using promise syntax just to use it
     inquirer.prompt ([
         {
             type: "list",
@@ -81,8 +71,10 @@ const createTeam = () => {
             name: "another",
             choices: ["Engineer","Intern","All done"]
         }
-    ]).then(function(answers) {
-        switch(answers) {
+    ]).then(({ another }) => {
+        // console.log('another: ', another);
+        
+        switch(another) {
             case 'Engineer':
                 createEngineer();
                 break;
@@ -96,9 +88,11 @@ const createTeam = () => {
     })
 }
 
-const createEngineer = () => {
+const createEngineer = async () => {
+    // console.log("starting engineer");
+
     const answers = await inquirer.prompt ([
-        initPrompt("engineer"),
+        ...initPrompt("engineer"),
         {
             type: "input",
             name: "github",
@@ -107,14 +101,17 @@ const createEngineer = () => {
     ])
 
     const { name, id, email, github } = answers;
-    team.push(new Manager(name, id, email, github));
+    team.push(new Engineer(name, id, email, github));
 
+    // ask about adding more employees to the team
     createTeam();
 }
 
-const createIntern = () => {
+const createIntern = async () => {
+    // console.log("starting intern");
+
     const answers = await inquirer.prompt ([
-        initPrompt("intern"),
+        ...initPrompt("intern"),
         {
             type: "input",
             name: "school",
@@ -123,12 +120,19 @@ const createIntern = () => {
     ])
 
     const { name, id, email, school } = answers;
-    team.push(new Manager(name, id, email, school));
+    team.push(new Intern(name, id, email, school));
 
-    createTeam();}
+    // ask about adding more employees to the team
+    createTeam();
+}
 
 const buildTeam = () => {
+    // const html = render(team);
 
+    // if (!fs.existsSync(OUTPUT_DIR)) {
+    //     fs.mkdirSync(OUTPUT_DIR);
+    // }
+    // fs.writeFile(outputPath, html);
 }
 
 // start with manager
