@@ -30,7 +30,7 @@ const initPrompt = (memberType) => {
             name: "email",
             message: `What is the ${memberType}'s email?`,
             validate: ans => {
-                const emailCheck = ans.match(/\S+@\S+.\S{3}/) //make sure a proper email is entered
+                const emailCheck = ans.match(/\S+@\S+\.\S{3}/) //make sure a proper email is entered
                 if (emailCheck) {
                     return true;
                 }

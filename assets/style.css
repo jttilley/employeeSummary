@@ -1,0 +1,26 @@
+
+.jumbotron {
+    background-color: red;
+    color: white;
+    padding: 1rem;
+}
+
+.container {
+    background-image: url('https://cdn.pixabay.com/photo/2014/04/03/10/34/gear-wheel-310906__340.png');
+    background-size: 100%;
+    background-repeat: repeat-y;
+}
+
+.team-area {
+    flex-flow: wrap row;
+}
+
+.card {
+    margin: 5px;
+    box-shadow: 10px 10px 15px;
+}
+
+.card-header {
+    background-color: #0d9df1;
+    color: white;
+}
