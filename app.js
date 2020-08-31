@@ -127,12 +127,12 @@ const createIntern = async () => {
 }
 
 const buildTeam = () => {
-    // const html = render(team);
+    const html = render(team);
 
-    // if (!fs.existsSync(OUTPUT_DIR)) {
-    //     fs.mkdirSync(OUTPUT_DIR);
-    // }
-    // fs.writeFile(outputPath, html);
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR);
+    }
+    fs.writeFileSync(outputPath, html);
 }
 
 // start with manager
