@@ -18,18 +18,15 @@ HTTP, CSS, JavaScript, Bootstrap, ES6, RegEx, inquirer, jest, fs, path, ES6 Clas
 ## Table of Contents
 * [Example](#example)
   
+* [Installation](#installation)
   
-  * [Installation](#installation)
+* [Usage](#usage)
   
-  * [Usage](#usage)
+* [License](#license)
   
-  * [License](#license)
+* [Tests](#tests)
   
-  * [Contributing](#contributing)
-  
-  * [Tests](#tests)
-  
-  * [Questions](#questions)
+* [Questions](#questions)
     
 
 ## Example
@@ -48,10 +45,6 @@ npm i
 
 ## License
 The license for this project is: *MIT* ©  2020 Jason Tilley
-  
-
-## Contributing
-Fork it
 
 ## Tests
 Run "npm run test"
